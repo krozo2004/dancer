@@ -1,4 +1,3 @@
-
 /* 
 MIT license
 Pure CSS The Carlton dance
@@ -13,62 +12,63 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 // Pure CSS dance animation (no graphics included)
-
 // Designed by Gustavo Viselner
 // https://dribbble.com/shots/3979515-It-s-not-unusual
-
 // Thanks for Una Kravets for Sass Pixel Art technique
 // https://una.im/sass-pixel-art/
 
-// Making time ~ 7 hours
 
 // Some Js for audio toggle
 
-const music = document.getElementById('music');
-const body = document.querySelector('body');
-const dancer = document.querySelector('.dancer');
-const danceMoves = document.querySelector('.dance-frame');
+const audioFiles = ['nes1.mp3', 'nes2.mp3', 'nes3.mp3', 'nes4.mp3', 'nes5.mp3'];
+const audioArray = [];
+let currentAudioIndex = 0;
+const body = document.querySelector("body");
+const dancer = document.querySelector(".dancer");
 let counter = 1;
-const dancing = Array.from(danceMoves);
+
+function fillSounds() {
+  for (i = 0; i < audioFiles.length; i++) {
+    audioArray[i] = new Audio("./sounds/" + audioFiles[i]);
+    audioArray[i].loop = true;
+    audioArray[i].load();
+  };
+};
+fillSounds();
+
 function eventHandler() {
   counter++;
-  dancer.classList.add('hidden');
-  music.pause();
-  if (counter % 10 === 0) {
-    dancer.classList.remove('hidden');
-    music.play();
+  dancer.classList.add("hidden");
+  audioArray[currentAudioIndex].pause();
+  currentAudioIndex = Math.floor(Math.random() * 1000) % audioArray.length;
+  if (counter % 4 === 0) {
+    dancer.classList.remove("hidden");
+    audioArray[currentAudioIndex].currentTime = 0;
+    audioArray[currentAudioIndex].play();
     counter = 0;
   }
 };
 
+body.addEventListener("click", eventHandler);
 
-body.addEventListener('click', eventHandler);
 
 
-// var isPlaying = false;
-// music.volume = 0.2;
-// function togglePlay() {
-//   if (isPlaying) {
-//     music.pause()
-//   } else {
-//     music.play();
-//   }
-// };
-// music.onplaying = function() {
-//   isPlaying = true;
-//   document.getElementById("music-animation").classList.add('on')
-// };
-// music.onpause = function() {
-//   isPlaying = false;
-//   document.getElementById("music-animation").classList.remove('on')
-// };
 
-// var button = document.getElementById("toggle");
-// button.addEventListener('click', function() {
-//   if (button.getAttribute("data-text-swap") == button.innerHTML) {
-//     button.innerHTML = button.getAttribute("data-text-original");
-//   } else {
-//     button.setAttribute("data-text-original", button.innerHTML);
-//     button.innerHTML = button.getAttribute("data-text-swap");
-//   }
-// }, false);
+/* Was: only one sound, without randomizing */
+
+// const music = document.getElementById("music1");
+// const body = document.querySelector("body");
+// const dancer = document.querySelector(".dancer");
+// let counter = 1;
+// function eventHandler() {
+  // counter++;
+  // dancer.classList.add("hidden");
+  // music.pause();
+  // if (counter % 4 === 0) {
+    // dancer.classList.remove("hidden");
+    // music.play();
+    // counter = 0;
+  // }
+// }
+
+// body.addEventListener("click", eventHandler);
